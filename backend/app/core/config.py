@@ -13,6 +13,10 @@ class Settings(BaseSettings):
 
     app_environment: Literal["development", "test", "production"] = "development"
     database_url: str
+    test_database_url: str = (
+        "postgresql+psycopg://store_test_user:store_test_password@"
+        "localhost:5434/online_store_test"
+    )
     sql_echo: bool = False
     jwt_secret_key: SecretStr
     jwt_algorithm: Literal["HS256"] = "HS256"

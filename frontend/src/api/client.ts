@@ -2,6 +2,7 @@ import type {
   AuthToken,
   Category,
   LoginPayload,
+  PaginatedProducts,
   Product,
   ProductPayload,
   RegisterPayload,
@@ -84,7 +85,7 @@ export const api = {
 
   me: (token?: string | null) => request<User>('/users/me', {}, token),
 
-  products: () => request<Product[]>('/products'),
+  products: () => request<PaginatedProducts>('/products?page_size=100'),
   product: (productId: number) => request<Product>(`/products/${productId}`),
   createProduct: (payload: ProductPayload) =>
     request<Product>('/products', {

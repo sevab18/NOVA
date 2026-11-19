@@ -1,16 +1,28 @@
 import unittest
 
 from fastapi.testclient import TestClient
+from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
-from app.database import engine, get_db
+from app.core.config import settings
+from app.database import Base, get_db
 from app.main import app
+
+
+if settings.test_database_url == settings.database_url:
+    raise RuntimeError("TEST_DATABASE_URL must differ from DATABASE_URL")
+
+test_engine = create_engine(
+    settings.test_database_url,
+    pool_pre_ping=True,
+)
 
 
 class DatabaseApiTestCase(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
-        cls.connection = engine.connect()
+        Base.metadata.create_all(bind=test_engine)
+        cls.connection = test_engine.connect()
         cls.transaction = cls.connection.begin()
 
         def override_get_db():
@@ -30,4 +42,4 @@ class DatabaseApiTestCase(unittest.TestCase):
         app.dependency_overrides.clear()
         cls.transaction.rollback()
         cls.connection.close()
-        engine.dispose()
+        test_engine.dispose()

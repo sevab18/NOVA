@@ -36,8 +36,8 @@ export function AdminPage() {
     setLoading(true)
     setError('')
     fetchAdminData()
-      .then(([productList, categoryList]) => {
-        setProducts(productList)
+      .then(([productPage, categoryList]) => {
+        setProducts(productPage.items)
         setCategories(categoryList)
       })
       .catch((reason: unknown) => {
@@ -49,9 +49,9 @@ export function AdminPage() {
   useEffect(() => {
     let active = true
     fetchAdminData()
-      .then(([productList, categoryList]) => {
+      .then(([productPage, categoryList]) => {
         if (!active) return
-        setProducts(productList)
+        setProducts(productPage.items)
         setCategories(categoryList)
       })
       .catch((reason: unknown) => {

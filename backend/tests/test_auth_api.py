@@ -165,9 +165,20 @@ class AuthApiTests(DatabaseApiTestCase):
             json=category_data,
             headers={"Authorization": f"Bearer {customer_token}"},
         )
+        anonymous_product_response = self.client.patch(
+            "/api/v1/products/2147483647",
+            json={"stock": 1},
+        )
+        customer_product_response = self.client.patch(
+            "/api/v1/products/2147483647",
+            json={"stock": 1},
+            headers={"Authorization": f"Bearer {customer_token}"},
+        )
 
         self.assertEqual(anonymous_response.status_code, 401)
         self.assertEqual(customer_response.status_code, 403)
+        self.assertEqual(anonymous_product_response.status_code, 401)
+        self.assertEqual(customer_product_response.status_code, 403)
 
     def test_openapi_contains_versioned_auth_routes(self) -> None:
         response = self.client.get("/openapi.json")

@@ -20,6 +20,16 @@ export interface Product {
   price: string | number
   stock: number
   category_id: number | null
+  image_url: string | null
+  is_active: boolean
+}
+
+export interface PaginatedProducts {
+  items: Product[]
+  total: number
+  page: number
+  page_size: number
+  pages: number
 }
 
 export interface Category {
@@ -45,4 +55,6 @@ export interface ProductPayload {
   price: string
   stock: number
   category_id: number | null
+  image_url?: string | null
+  is_active?: boolean
 }

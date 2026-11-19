@@ -13,8 +13,8 @@ export function HomePage() {
 
   useEffect(() => {
     Promise.all([api.products(), api.categories()])
-      .then(([productList, categoryList]) => {
-        setProducts(productList.slice(0, 4))
+      .then(([productPage, categoryList]) => {
+        setProducts(productPage.items.slice(0, 4))
         setCategories(categoryList)
       })
       .catch(() => undefined)

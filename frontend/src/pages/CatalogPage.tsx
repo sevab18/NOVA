@@ -26,8 +26,8 @@ export function CatalogPage() {
     setLoading(true)
     setError('')
     fetchCatalogData()
-      .then(([productList, categoryList]) => {
-        setProducts(productList)
+      .then(([productPage, categoryList]) => {
+        setProducts(productPage.items)
         setCategories(categoryList)
       })
       .catch((reason: unknown) => {
@@ -39,9 +39,9 @@ export function CatalogPage() {
   useEffect(() => {
     let active = true
     fetchCatalogData()
-      .then(([productList, categoryList]) => {
+      .then(([productPage, categoryList]) => {
         if (!active) return
-        setProducts(productList)
+        setProducts(productPage.items)
         setCategories(categoryList)
       })
       .catch((reason: unknown) => {
